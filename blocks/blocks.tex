@@ -34,9 +34,14 @@
     },
     rnodesty/.style={
         nodesty,
-        minimum height=13em, 
-        minimum width=2em, 
-    },    
+        minimum height=7em,
+        minimum width=1.5em,
+    },
+    label/.style={
+        align=center,
+        inner sep=0pt,
+    	font=\tiny,
+    },
 }
 
 %------------------------------------------------------------%
@@ -45,22 +50,21 @@
 \begin{tikzpicture}[]
 
 % cloud platform nodes
-\node (cp1) [rnodesty] {\rotatebox{90}{Cloud Platform}};
-\node (cp2) [rnodesty,right=0.2 of cp1] {\rotatebox{90}{Cloud Platform}};
-\node (cp3) [rnodesty,right=0.2 of cp2] {\rotatebox{90}{Cloud Platform}};
+\node (cp1) [rnodesty,label={[labelsty]above:API}] {\rotatebox{90}{Some Platform}};
+\node (cp2) [rnodesty,right=0.2 of cp1,label={[labelsty]above:API}] {\rotatebox{90}{Some Platform}};
+\node (cp3) [rnodesty,right=0.2 of cp2,label={[labelsty]above:API}] {\rotatebox{90}{Some Platform}};
 
-\node (ap) [rnodesty,left=0.5 of cp1] {\rotatebox{90}{Appliance Mgmt}};
+\node (ap) [rnodesty,left=0.4 of cp1.north west,anchor=north east,minimum height=8em,label={[labelsty]above:API}] {\rotatebox{90}{Appliance Mgmt}};
 
+\path let \p1=(ap.west),\p2=(cp3.east)in
+      node (virtual) [nodesty,below=0.2 of ap.south west,anchor=north west,minimum width=\x2-\x1-\pgflinewidth]
+           {Virtual \\ Infrastructure};
 
-%\path let \p1=(s1.west),\p2=(s3.east)in
-%      node (base2) [nodesty,below=0.5 of s1.south west,anchor=north west,minimum width=\x2-\x1-\pgflinewidth]
-%           {base teste legal 2};
+\path let \p1=(virtual.south),\p2=(ap.north) in
+      node (os) [rnodesty,left=0.2 of virtual.south west,anchor=south east,minimum height=\y2-\y1-\pgflinewidth]
+           {\rotatebox{90}{OpenStack Installation}};
 
-%\path let \p1=(s2.west),\p2=(s3.east) in
-%      node (base3) [nodesty,above=0.5 of s2.north west,anchor=south west,minimum width=\x2-\x1-\pgflinewidth]
-%           {base teste legal 3};
-
-%\node (s4) [nodesty,left=0.25 of base3.south west,anchor=south east,minimum height=6em,minimum width=3em] {\rotatebox{90}{SVC4}};
+\node (dc) [fitsty,fit=(os.south west) (cp3.north east),inner ysep=-.5em] {};
 
 \end{tikzpicture}
 \end{document}
